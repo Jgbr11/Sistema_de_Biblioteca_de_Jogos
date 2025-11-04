@@ -15,8 +15,11 @@ public class Biblioteca {
     }
 
 
-    public int fatorDeCarga(){
-        return double
+    public double fatorDeCarga(){
+        int numElementos = 0;
+        for (LinkedList<Jogo> lista : jogos)
+            numElementos += lista.size();
+        return (double) numElementos / tamanho;
     }
 
     public int hash(String chave){
@@ -41,4 +44,6 @@ public class Biblioteca {
         }
 
     }
+
+
 }
