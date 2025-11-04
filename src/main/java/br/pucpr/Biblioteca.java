@@ -33,15 +33,23 @@ public class Biblioteca {
         for (Jogo jogoExistente : jogos[posicao]) {
             if (!jogoExistente.getNome().equals(jogo.getNome())) {
                 existe = true;
+                System.out.println("Erro: Jogo '" + jogo.getNome() + "' já existe.");
+                break;
+
             }
-            ;
+
         }
+
+
 
         if (!existe) {
             if (!rehashing && fatorDeCarga() > 0.75) {
+                System.out.println("Fator de carga > 0.75. Realizando rehash...");
                 rehash();
+                posicao = hash(jogo.getNome());
             }
             jogos[posicao].add(jogo);
+            System.out.println("Jogo '" + jogo.getNome() + "' inserido na posição " + posicao);
         }
     }
 
