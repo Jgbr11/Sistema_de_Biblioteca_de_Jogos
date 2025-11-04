@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class BubbleSort {
     private LinkedList<Jogo>[] jogos;
 
-    public BubbleSort (Jogo[] vetor, String criterio){
+    public static void BubbleSort (Jogo[] vetor, String criterio){
         if (vetor == null) return;
 
         int n = vetor.length;
