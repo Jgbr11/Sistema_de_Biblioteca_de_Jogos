@@ -1,18 +1,22 @@
 package br.pucpr;
 import java.util.LinkedList;
-public class BubbleSort {
+public class Biblioteca {
 
     private int tamanho;
     private LinkedList<Jogo>[] jogos;
-    private final double fatorDeCarga = 0.75;
     private boolean rehashing = false;
 
-    public BubbleSort(int tamanho){
+    public Biblioteca(int tamanho){
         this.tamanho = tamanho;
         this.jogos = new LinkedList[tamanho];
         for (int i = 0; i < tamanho; i++){
             jogos[i] = new LinkedList<>();
         }
+    }
+
+
+    public int fatorDeCarga(){
+        return double
     }
 
     public int hash(String chave){
