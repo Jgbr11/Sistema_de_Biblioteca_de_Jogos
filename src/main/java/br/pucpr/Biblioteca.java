@@ -26,24 +26,41 @@ public class Biblioteca {
         return 0;
     }
 
-    public void inserir(Jogo jogo){
+    public void inserir(Jogo jogo) {
         int posicao = hash(jogo.getNome());
 
         boolean existe = false;
         for (Jogo jogoExistente : jogos[posicao]) {
-            if (!jogoExistente.getNome().equals(jogo.getNome())){
+            if (!jogoExistente.getNome().equals(jogo.getNome())) {
                 existe = true;
-            };
+            }
+            ;
         }
 
-        if (!existe){
-            if(!rehashing && fatorDeCarga() > 0.75){
+        if (!existe) {
+            if (!rehashing && fatorDeCarga() > 0.75) {
                 rehash();
             }
             jogos[posicao].add(jogo);
         }
-
     }
+
+        private void rehash(){
+            rehashing = true;
+            tamanho = tamanho * 2;
+            LinkedList<Jogo>[] tabelaAntiga = jogos;
+            LinkedList<Jogo>[] tabelaNova = new LinkedList[tamanho];
+            jogos = tabelaNova;
+            for (int i = 0; i < tamanho; i++){
+                tabelaNova[i] = new LinkedList<>();
+            }
+            for (LinkedList<Jogo> listaJogos : tabelaAntiga){
+                for (Jogo jogo : listaJogos){
+                    inserir(jogo);
+                }
+            }
+            rehashing = false;
+        }
 
 
 }
