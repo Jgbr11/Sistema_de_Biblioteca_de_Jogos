@@ -1,17 +1,17 @@
 package br.pucpr;
 
 public class Jogo {
-    private String nome;
+    private String titulo;
     private String plataforma;
-    private String ano;
+    private int ano;
     private String genero;
 
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getPlataforma() {
@@ -22,11 +22,11 @@ public class Jogo {
         this.plataforma = plataforma;
     }
 
-    public String getAno() {
+    public int getAno() {
         return ano;
     }
 
-    public void setAno(String ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 
