@@ -23,26 +23,26 @@ public class QuickSort {
             }
         }
 
-        swap(arr, i + 1, high); //coloca o pivô em sua posição correta
+        swap(arr, i + 1, high); //coloca o pivô na posição correta
         return i + 1;
     }
 
     private boolean comparar(Jogo a, Jogo b, String chave) {
         switch (chave.toLowerCase()) {
             case "titulo":
-                return a.getNome().compareTo(b.getNome()) <= 0;
+                return a.getTitulo().compareTo(b.getTitulo()) <= 0;
             case "genero":
                 return a.getGenero().compareTo(b.getGenero()) <= 0;
             case "ano":
                 try {
-                    int anoA = Integer.parseInt(a.getAno());
-                    int anoB = Integer.parseInt(b.getAno());
+                    int anoA = Integer.parseInt(String.valueOf(a.getAno()));
+                    int anoB = Integer.parseInt(String.valueOf(b.getAno()));
                     return anoA <= anoB;
                 } catch (NumberFormatException e) {
                     return false;
                 }
             default:
-                return a.getNome().compareTo(b.getNome()) <= 0;
+                return a.getTitulo().compareTo(b.getTitulo()) <= 0;
         }
     }
 
