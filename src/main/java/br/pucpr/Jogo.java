@@ -3,7 +3,7 @@ package br.pucpr;
 public class Jogo {
     private String titulo;
     private String plataforma;
-    private int ano;
+    private String ano;
     private String genero;
 
     public String getTitulo() {
@@ -22,11 +22,11 @@ public class Jogo {
         this.plataforma = plataforma;
     }
 
-    public int getAno() {
+    public String getAno() {
         return ano;
     }
 
-    public void setAno(int ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 

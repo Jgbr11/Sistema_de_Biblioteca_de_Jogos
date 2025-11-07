@@ -21,7 +21,7 @@ public class BubbleSort {
 
                 switch (criterio.toLowerCase()) {
                     case "titulo":
-                        if (vetor[j].getNome().compareToIgnoreCase(vetor[j+1].getNome()) > 0) {
+                        if (vetor[j].getTitulo().compareToIgnoreCase(vetor[j+1].getTitulo()) > 0) {
                             precisaTrocar = true;
                         }
                         break;
