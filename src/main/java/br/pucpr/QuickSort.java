@@ -2,52 +2,59 @@ package br.pucpr;
 
 public class QuickSort {
 
-    public void sort(Jogo[] array, int low, int high, String sortKey) {
+    public static void sort(Jogo[] array, String sortKey) {
+        if (array == null || array.length == 0) return;
+        sortRecursivo(array, 0, array.length - 1, sortKey);
+    }
+
+    private static void sortRecursivo(Jogo[] array, int low, int high, String sortKey) {
         if (low < high) {
             int pi = particionamento(array, low, high, sortKey);
-
-            // recursividade
-            sort(array, low, pi - 1, sortKey); //esquerda do pivot
-            sort(array, pi + 1, high, sortKey); //direita do pivot
+            sortRecursivo(array, low, pi - 1, sortKey);  // Esquerda
+            sortRecursivo(array, pi + 1, high, sortKey); // Direita
         }
     }
 
-    private int particionamento(Jogo[] arr, int low, int high, String sortKey) {
-        Jogo pivot = arr[high]; //pivo como ultimo elemento
+    private static int particionamento(Jogo[] arr, int low, int high, String sortKey) {
+        Jogo pivot = arr[high];
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
+            // A lógica de 'comparar' aqui é (a <= b)
             if (comparar(arr[j], pivot, sortKey)) {
                 i++;
                 swap(arr, i, j);
             }
         }
 
-        swap(arr, i + 1, high); //coloca o pivô na posição correta
+        swap(arr, i + 1, high);
         return i + 1;
     }
 
-    private boolean comparar(Jogo a, Jogo b, String chave) {
-        switch (chave.toLowerCase()) {
-            case "titulo":
-                return a.getTitulo().compareTo(b.getTitulo()) <= 0;
-            case "genero":
-                return a.getGenero().compareTo(b.getGenero()) <= 0;
-            case "ano":
-                try {
-                    int anoA = Integer.parseInt(String.valueOf(a.getAno()));
-                    int anoB = Integer.parseInt(String.valueOf(b.getAno()));
+    // Retorna true se a <= b
+    private static boolean comparar(Jogo a, Jogo b, String chave) {
+        try {
+            switch (chave.toLowerCase()) {
+                case "titulo":
+                    return a.getTitulo().compareToIgnoreCase(b.getTitulo()) <= 0;
+                case "genero":
+                    return a.getGenero().compareToIgnoreCase(b.getGenero()) <= 0;
+                case "ano":
+                    // CORREÇÃO: Parse direto, sem String.valueOf()
+                    int anoA = Integer.parseInt(a.getAno());
+                    int anoB = Integer.parseInt(b.getAno());
                     return anoA <= anoB;
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-            default:
-                return a.getTitulo().compareTo(b.getTitulo()) <= 0;
+                default:
+                    System.out.println("QuickSort: Critério inválido. Usando título.");
+                    return a.getTitulo().compareToIgnoreCase(b.getTitulo()) <= 0;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Erro de formato de ano no QuickSort: " + e.getMessage());
+            return false;
         }
     }
 
-    // Troca dois elementos no array
-    private void swap(Jogo[] arr, int i, int j) {
+    private static void swap(Jogo[] arr, int i, int j) {
         Jogo temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
