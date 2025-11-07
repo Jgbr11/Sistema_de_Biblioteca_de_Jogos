@@ -6,11 +6,18 @@ public class Jogo {
     private String ano;
     private String genero;
 
+    public Jogo(String titulo, String plataforma, String genero, String ano) {
+        this.titulo = titulo;
+        this.plataforma = plataforma;
+        this.genero = genero;
+        this.ano = ano;
+    }
+
     public String getTitulo() {
         return titulo;
     }
 
-    public void setNome(String titulo) {
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
@@ -36,5 +43,11 @@ public class Jogo {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Título: %s | Plataforma: %s | Gênero: %s | Ano: %s",
+                titulo, plataforma, genero, ano);
     }
 }

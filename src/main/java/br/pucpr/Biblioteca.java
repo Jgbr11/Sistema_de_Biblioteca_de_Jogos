@@ -1,74 +1,119 @@
 package br.pucpr;
+
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Biblioteca {
 
     private int tamanho;
     private LinkedList<Jogo>[] jogos;
     private boolean rehashing = false;
+    private int numElementos = 0;
 
-    public Biblioteca(int tamanho){
+    public Biblioteca(int tamanho) {
         this.tamanho = tamanho;
         this.jogos = new LinkedList[tamanho];
-        for (int i = 0; i < tamanho; i++){
+        for (int i = 0; i < tamanho; i++) {
             jogos[i] = new LinkedList<>();
         }
     }
 
-
-    public double fatorDeCarga(){
-        int numElementos = 0;
-        for (LinkedList<Jogo> lista : jogos)
-            numElementos += lista.size();
+    public double fatorDeCarga() {
         return (double) numElementos / tamanho;
     }
 
-    public int hash(String chave){
-        return 0;
+    public int hash(String chave) {
+        return Math.abs(chave.hashCode() % tamanho);
     }
 
     public void inserir(Jogo jogo) {
         int posicao = hash(jogo.getTitulo());
 
-        boolean existe = false;
         for (Jogo jogoExistente : jogos[posicao]) {
-            if (!jogoExistente.getTitulo().equals(jogo.getTitulo())) {
-                existe = true;
+            if (jogoExistente.getTitulo().equalsIgnoreCase(jogo.getTitulo())) {
                 System.out.println("Erro: Jogo '" + jogo.getTitulo() + "' já existe.");
-                break;
-
+                return;
             }
-
         }
 
+        if (!rehashing && fatorDeCarga() > 0.75) {
+            System.out.println("Fator de carga > 0.75. Realizando rehash...");
+            rehash();
+            posicao = hash(jogo.getTitulo());
+        }
 
+        jogos[posicao].add(jogo);
+        numElementos++;
+        System.out.println("Jogo '" + jogo.getTitulo() + "' inserido na posição " + posicao);
+    }
 
-        if (!existe) {
-            if (!rehashing && fatorDeCarga() > 0.75) {
-                System.out.println("Fator de carga > 0.75. Realizando rehash...");
-                rehash();
-                posicao = hash(jogo.getTitulo());
+    private void rehash() {
+        rehashing = true;
+        LinkedList<Jogo>[] tabelaAntiga = jogos;
+        int tamanhoAntigo = tamanho;
+
+        tamanho = tamanho * 2;
+        this.jogos = new LinkedList[tamanho];
+        this.numElementos = 0;
+
+        for (int i = 0; i < tamanho; i++) {
+            jogos[i] = new LinkedList<>();
+        }
+
+        for (int i = 0; i < tamanhoAntigo; i++) {
+            for (Jogo jogo : tabelaAntiga[i]) {
+                inserir(jogo);
             }
-            jogos[posicao].add(jogo);
-            System.out.println("Jogo '" + jogo.getTitulo() + "' inserido na posição " + posicao);
+        }
+
+        rehashing = false;
+    }
+
+    public Jogo buscar(String titulo) {
+        int posicao = hash(titulo);
+        for (Jogo jogo : jogos[posicao]) {
+            if (jogo.getTitulo().equalsIgnoreCase(titulo)) {
+                return jogo;
+            }
+        }
+        return null;
+    }
+
+    public boolean remover(String titulo) {
+        int posicao = hash(titulo);
+        Jogo jogoParaRemover = null;
+
+        for (Jogo jogo : jogos[posicao]) {
+            if (jogo.getTitulo().equalsIgnoreCase(titulo)) {
+                jogoParaRemover = jogo;
+                break;
+            }
+        }
+
+        if (jogoParaRemover != null) {
+            jogos[posicao].remove(jogoParaRemover);
+            numElementos--;
+            System.out.println("Jogo '" + titulo + "' removido.");
+            return true;
+        } else {
+            System.out.println("Erro: Jogo '" + titulo + "' não encontrado para remoção.");
+            return false;
         }
     }
 
-        private void rehash(){
-            rehashing = true;
-            tamanho = tamanho * 2;
-            LinkedList<Jogo>[] tabelaAntiga = jogos;
-            LinkedList<Jogo>[] tabelaNova = new LinkedList[tamanho];
-            jogos = tabelaNova;
-            for (int i = 0; i < tamanho; i++){
-                tabelaNova[i] = new LinkedList<>();
-            }
-            for (LinkedList<Jogo> listaJogos : tabelaAntiga){
-                for (Jogo jogo : listaJogos){
-                    inserir(jogo);
+    public Jogo[] exportarParaVetor() {
+        Jogo[] vetorJogos = new Jogo[numElementos];
+        int indiceVetor = 0;
+
+        for (int i = 0; i < tamanho; i++) {
+            for (Jogo jogo : jogos[i]) {
+                if (indiceVetor < numElementos) {
+                    vetorJogos[indiceVetor] = jogo;
+                    indiceVetor++;
                 }
             }
-            rehashing = false;
         }
-
-
+        return vetorJogos;
+    }
 }
