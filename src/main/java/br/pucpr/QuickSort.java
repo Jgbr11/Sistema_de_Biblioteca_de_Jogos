@@ -31,7 +31,6 @@ public class QuickSort {
         return i + 1;
     }
 
-    // Retorna true se a <= b
     private static boolean comparar(Jogo a, Jogo b, String chave) {
         try {
             switch (chave.toLowerCase()) {

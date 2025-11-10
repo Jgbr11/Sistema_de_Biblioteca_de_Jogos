@@ -8,7 +8,6 @@ public class BubbleSort {
         bubbleSortRecursivo(vetor, criterio, vetor.length);
     }
 
-
     private static void bubbleSortRecursivo(Jogo[] vetor, String criterio, int n) {
         if (n <= 1) {
             return;

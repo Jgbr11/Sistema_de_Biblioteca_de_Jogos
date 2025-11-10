@@ -14,23 +14,20 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 public class Main extends Application {
+    
+    private Biblioteca biblioteca = new Biblioteca(10);
 
-    // A biblioteca é o "banco de dados" da nossa aplicação
-    private Biblioteca biblioteca = new Biblioteca(10); // Tamanho inicial de 10
 
-    // Componentes da UI
     private TextField tfTitulo = new TextField();
     private TextField tfPlataforma = new TextField();
     private TextField tfGenero = new TextField();
     private TextField tfAno = new TextField();
 
-    // Campo de texto para buscar/remover
+
     private TextField tfBuscarRemover = new TextField();
 
-    // Área para mostrar resultados
     private TextArea taResultados = new TextArea();
 
-    // ComboBox para escolher o algoritmo
     private ComboBox<String> cbAlgoritmos = new ComboBox<>();
 
     public static void main(String[] args) {
@@ -44,22 +41,20 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
 
-        // 1. Topo: Formulário de Inserção
         root.setTop(criarFormularioInsercao());
 
-        // 2. Centro: Área de Resultados
         taResultados.setEditable(false);
         taResultados.setWrapText(true);
         root.setCenter(taResultados);
 
-        // 3. Direita: Ações de Busca e Ordenação
+
         root.setRight(criarPainelAcoes());
 
-        // Inicializa a ComboBox
+
         cbAlgoritmos.getItems().addAll("BubbleSort", "InsertionSort", "QuickSort");
         cbAlgoritmos.setValue("QuickSort"); // Padrão
 
-        // Adiciona alguns jogos de exemplo
+
         adicionarExemplos();
         listarTodosJogos();
 
@@ -102,10 +97,9 @@ public class Main extends Application {
 
     private VBox criarPainelAcoes() {
         VBox vbox = new VBox(15);
-        vbox.setPadding(new Insets(0, 0, 0, 20)); // Espaço à esquerda
+        vbox.setPadding(new Insets(0, 0, 0, 20));
         vbox.setAlignment(Pos.TOP_CENTER);
 
-        // --- Seção de Busca/Remoção ---
         VBox boxBusca = new VBox(10);
         boxBusca.setAlignment(Pos.CENTER);
         tfBuscarRemover.setPromptText("Digite o título aqui...");
@@ -126,7 +120,6 @@ public class Main extends Application {
                 btnListarTodos
         );
 
-        // --- Seção de Ordenação ---
         VBox boxOrdenacao = new VBox(10);
         boxOrdenacao.setAlignment(Pos.CENTER);
 
@@ -152,8 +145,6 @@ public class Main extends Application {
         return vbox;
     }
 
-    // --- Métodos de Ação ---
-
     private void adicionarJogo() {
         String titulo = tfTitulo.getText();
         String plataforma = tfPlataforma.getText();
@@ -166,7 +157,6 @@ public class Main extends Application {
         }
 
         try {
-            // Validação simples do ano
             Integer.parseInt(ano);
         } catch (NumberFormatException e) {
             taResultados.setText("ERRO: O ano deve ser um número válido!");
@@ -205,7 +195,7 @@ public class Main extends Application {
         boolean removido = biblioteca.remover(titulo);
         if (removido) {
             taResultados.setText("Jogo '" + titulo + "' removido com sucesso.");
-            listarTodosJogos(); // Atualiza a lista
+            listarTodosJogos();
         } else {
             taResultados.setText("Jogo '" + titulo + "' não encontrado.");
         }
@@ -217,7 +207,7 @@ public class Main extends Application {
     }
 
     private void ordenarJogos(String criterio) {
-        // 1. Exporta os dados da Tabela Hash para um vetor
+
         Jogo[] vetor = biblioteca.exportarParaVetor();
 
         if (vetor.length == 0) {
@@ -225,13 +215,9 @@ public class Main extends Application {
             return;
         }
 
-        // 2. Pega o algoritmo escolhido
         String algoritmo = cbAlgoritmos.getValue();
 
-        // Medir o tempo (Bônus, mas bom para análise de complexidade)
         long startTime = System.nanoTime();
-
-        // 3. Executa o algoritmo de ordenação escolhido
         switch (algoritmo) {
             case "BubbleSort":
                 BubbleSort.sort(vetor, criterio);
@@ -240,7 +226,6 @@ public class Main extends Application {
                 InsertionSort.sort(vetor, criterio);
                 break;
             case "QuickSort":
-                // QuickSort (static)
                 QuickSort.sort(vetor, criterio);
                 break;
             default:
@@ -249,16 +234,13 @@ public class Main extends Application {
         }
 
         long endTime = System.nanoTime();
-        double duracaoMs = (endTime - startTime) / 1_000_000.0; // Convertendo nanos para milissegundos
+        double duracaoMs = (endTime - startTime) / 1_000_000.0;
 
-        // 4. Exibe o resultado
         String titulo = "Jogos Ordenados por '" + criterio + "' usando " + algoritmo;
         String timing = String.format("\nTempo de execução: %.4f ms", duracaoMs);
 
         exibirVetorNoResultado(vetor, titulo + timing);
     }
-
-    // --- Métodos Utilitários ---
 
     private void exibirVetorNoResultado(Jogo[] vetor, String titulo) {
         if (vetor.length == 0) {
