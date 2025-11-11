@@ -16,7 +16,7 @@ public class QuickSort {
     }
 
     private static int particionamento(Jogo[] arr, int low, int high, String sortKey) {
-        Jogo pivot = arr[high];
+        Jogo pivot = arr[high]; //PIVÔ É O ULTIMO
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
@@ -39,7 +39,6 @@ public class QuickSort {
                 case "genero":
                     return a.getGenero().compareToIgnoreCase(b.getGenero()) <= 0;
                 case "ano":
-                    // CORREÇÃO: Parse direto, sem String.valueOf()
                     int anoA = Integer.parseInt(a.getAno());
                     int anoB = Integer.parseInt(b.getAno());
                     return anoA <= anoB;

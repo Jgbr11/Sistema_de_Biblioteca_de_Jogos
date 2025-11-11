@@ -271,5 +271,9 @@ public class Main extends Application {
         biblioteca.inserir(new Jogo("Stardew Valley", "PC", "Simulação", "2016"));
         biblioteca.inserir(new Jogo("Red Dead Redemption 2", "PS4", "Ação", "2018"));
         biblioteca.inserir(new Jogo("Celeste", "PC", "Plataforma", "2018"));
+        biblioteca.inserir(new Jogo("Fifa", "Xbox", "Esportes", "2025" ));
+        biblioteca.inserir(new Jogo("Minecraft", "PC", "Survival", "2011"));
+        biblioteca.inserir(new Jogo("Rocket League", "PC", "Corrida/Esportes", "2015"));
+        biblioteca.inserir(new Jogo("Formula 1", "PS5", "Corrida/Esportes", "2021"));
     }
 }
